@@ -1,0 +1,86 @@
+@startuml
+
+Employee o-- fj.data.Either
+Employee o-- IO
+Employee o-- Salary
+
+IO o-- fj.F
+IO o-- fj.Unit
+
+Salary o-- Money
+
+Researcher <|-- Employee
+Administrator <|-- Employee
+Administrator o-- IO
+Lecturer <|-- Employee
+Lecturer o-- IO
+
+
+namespace fj {
+
+          class F<A, B> {
+          }
+
+          class Unit {
+          }
+}
+
+namespace fj.data {
+
+          class Either<A, B> {
+          }
+
+}
+
+abstract class Employee {
+      -String jobTitle
+      -String name
+      -Salary salary
+      -Address address
+      -PhoneNumber phoneNumber
+      +Employee(String, String, Integer, Salary, Address, PhoneNumber)
+      +Either<IO<Either<String, Salary>>, Salary> calculateSalary()
+      +String getJobTitle()
+      +String getName()
+      +Salary getSalary()
+      +Address getAddress()
+      +PhoneNumber getPhoneNumber()
+}
+
+class Researcher {
+
+}
+
+class Administrator {
+      -IO<Either<String, Salary>> salaryInfo
+}
+
+class Lecturer {
+      -IO<Either<String, Salary>> salaryInfo
+}
+
+class IO<A> {
+      -F<Unit, A> runF
+      +IO(F<Unit, A>)
+      +A run()
+}
+
+class Salary {
+      -Monay yearlySalary
+      +Salary(Money)
+      +Money getYearly()
+      +Money getMonthly
+
+}
+
+class Money {
+      -Double amount
+      +Double getAmount()
+      +Money(Double)
+      +Money add(Money)
+}
+
+hide empty members
+hide empty methods
+
+@enduml
