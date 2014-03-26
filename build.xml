@@ -1,0 +1,29 @@
+<project name="mk440-cm20215-cwk2" basedir=".">
+
+  <property name="lib.dir" value="lib"/>
+  <property name="src.dir" value="src"/>
+  <property name="bin.dir" value="bin"/>
+  <property name="classes.dir" value="${bin.dir}/classes"/>
+  <property name="jar.dir" value="${bin.dir}/jar"/>
+
+  <path id="dest.classpath">
+    <fileset dir="${lib.dir}">
+      <include name="**/*.jar" />
+    </fileset>
+  </path>
+
+  <target name="clean">
+    <delete dir="bin"/>
+  </target>
+
+  <target name="build">
+    <mkdir dir="${classes.dir}"/>
+    <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false">
+      <classpath>
+        <pathelement path="${lib.dir}/*.jar"/>
+        <path refid="dest.classpath"/>
+      </classpath>
+    </javac>
+  </target>
+
+</project>
