@@ -3,6 +3,8 @@
 Employee o-- fj.data.Either
 Employee o-- IO
 Employee o-- Salary
+Employee o-- Address
+Employee o-- PhoneNumber
 
 IO o-- fj.F
 IO o-- fj.Unit
@@ -70,7 +72,6 @@ class Salary {
       +Salary(Money)
       +Money getYearly()
       +Money getMonthly
-
 }
 
 class Money {
@@ -79,6 +80,23 @@ class Money {
       +Money(Double)
       +Money add(Money)
 }
+
+class Address {
+      -String town
+      -String street
+      -String postcode
+      +Address(String, String, String)
+      +String getTown()
+      +String getStreet()
+      +String getPostcode()
+}
+
+class PhoneNumber {
+      -String number
+      +PhoneNumber(String)
+      +Boolean isValidPhoneNumber(String)
+}
+
 
 hide empty members
 hide empty methods
