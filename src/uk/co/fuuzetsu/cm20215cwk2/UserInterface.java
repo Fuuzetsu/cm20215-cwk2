@@ -115,8 +115,8 @@ public class UserInterface {
             switch (choice) {
             case 1 : System.out.println(database); break;
             case 2 :
-                /* Wow, isn't Java's type sytem great ;^) */
-                getMonthlyWage().<IO<Unit>>either(Util.<String>print_(), Util.<Money>print_());
+                getMonthlyWage().<IO<Unit>>either(Util.<String>print_(),
+                                                  Util.<Money>print_());
                 break;
             case 3 : recordAddRoutine(); break;
             case 4 : recordDeleteRoutine(); break;
