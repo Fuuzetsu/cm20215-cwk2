@@ -6,7 +6,7 @@ import fj.data.Either;
 
 public class Researcher extends Employee {
 
-    public Researcher(final String name, final Integer id,
+    public Researcher(final Integer id, final String name,
                       final Address address,
                       final PhoneNumber phoneNumber) {
         super("Researcher", name, id, new Salary(new Money(10000d)),

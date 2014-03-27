@@ -6,8 +6,7 @@ import fj.data.Either;
 
 public class Administrator extends Employee {
 
-    public Administrator(final String jobTitle, final String name,
-                         final Integer id, final Salary salary,
+    public Administrator(final Integer id, final String name,
                          final Address address, final PhoneNumber phoneNumber) {
         super("Administrator", name, id, new Salary(15000d), address, phoneNumber);
     }
@@ -32,8 +31,6 @@ public class Administrator extends Employee {
                     return Either.left(c.left().value());
                 }
             }
-
-
         };
 
         return Either.left(new IO<>(f));
