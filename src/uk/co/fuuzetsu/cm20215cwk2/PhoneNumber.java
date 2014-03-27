@@ -1,13 +1,22 @@
 package uk.co.fuuzetsu.cm20215cwk2;
 
+import fj.data.Either;
+
 public class PhoneNumber {
     final private String number;
 
-    public PhoneNumber(final String number) throws InvalidPhoneNumberException {
-        if (!isValidPhoneNumber(number))
-            throw new InvalidPhoneNumberException(number);
-
+    private PhoneNumber(final String number) {
         this.number = number;
+    }
+
+    public static Either<String, PhoneNumber>
+        phoneNumber(final String number) {
+        if (!isValid(number)) {
+            return Either.left
+                (String.format("%s is not a valid phone number.", number));
+        } else {
+            return Either.right(new PhoneNumber(number));
+        }
     }
 
     public String getNumber() {
@@ -19,7 +28,7 @@ public class PhoneNumber {
     }
 
     /* Empty numbers are actually OK. */
-    private Boolean isValidPhoneNumber(final String n) {
+    private static Boolean isValid(final String n) {
         for (Character c : n.toCharArray())
             if (!Character.isDigit(c))
                 return false;

@@ -29,19 +29,15 @@ public class GenericRecord {
             Integer id = Integer.parseInt(line[0]);
             String name = line[1];
             String jobTitle = line[2];
-            PhoneNumber phoneNumber;
+            Either<String, PhoneNumber> phoneNumber;
             Address address;
 
             if (id <= 0) {
                 return Either.left("ID value less than or 0.");
             }
 
-            try {
-                phoneNumber = new PhoneNumber(line[3]);
-            }
-            catch (InvalidPhoneNumberException e) {
-                throw e;
-            }
+            phoneNumber = PhoneNumber.phoneNumber(line[3]);
+
             try {
                 String[] ap = line[4].split(" : ");
                 address = new Address(ap[0], ap[1], ap[2]);
@@ -49,11 +45,15 @@ public class GenericRecord {
             catch (ArrayIndexOutOfBoundsException e) {
                 throw e;
             }
-            return Either.right(new GenericRecord(id, name, jobTitle, phoneNumber, address));
-        }
-        catch (InvalidPhoneNumberException n) {
-            System.out.println(n);
-            return Either.left(n.getMessage());
+
+            if (phoneNumber.isLeft()) {
+                return Either.left(phoneNumber.left().value());
+            } else {
+                return Either.right
+                    (new GenericRecord(id, name, jobTitle,
+                                       phoneNumber.right().value(), address));
+            }
+
         }
         catch (ArrayIndexOutOfBoundsException b) {
             System.out.println(b);
