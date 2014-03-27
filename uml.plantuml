@@ -41,7 +41,7 @@ abstract class Employee {
       -Address address
       -PhoneNumber phoneNumber
       +Employee(String, String, Integer, Salary, Address, PhoneNumber)
-      +Either<IO<Either<String, Salary>>, Salary> calculateSalary()
+      +Either<IO<Either<String, Money>>, Money> calculateWage()
       +String getJobTitle()
       +String getName()
       +Salary getSalary()
@@ -54,11 +54,9 @@ class Researcher {
 }
 
 class Administrator {
-      -IO<Either<String, Salary>> salaryInfo
 }
 
 class Lecturer {
-      -IO<Either<String, Salary>> salaryInfo
 }
 
 class IO<A> {
