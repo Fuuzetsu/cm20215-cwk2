@@ -1,12 +1,12 @@
 package uk.co.fuuzetsu.cm20215cwk2;
 
 public class GenericRecord {
-    private Integer ID;
+    private Integer id;
     private String name, jobTitle;
     private PhoneNumber phoneNumber;
     private Address address;
 
-    public Integer getID() { return ID; }
+    public Integer getID() { return id; }
     public String getName() { return name; }
     public String getJobTitle() { return jobTitle; }
     public PhoneNumber getPhoneNumber() { return phoneNumber; }
@@ -14,13 +14,13 @@ public class GenericRecord {
 
     public GenericRecord(String[] line) throws RecordException {
         try {
-            ID = Integer.parseInt(line[0]);
+            id = Integer.parseInt(line[0]);
             name = line[1];
             jobTitle = line[2];
 
             /* Ideally we should throw a range exception. */
-            if (ID <= 0)
-                throw new RecordException("ID value less than or 0.");
+            if (id <= 0)
+                throw new RecordException("id value less than or 0.");
 
             try {
                 phoneNumber = new PhoneNumber(line[3]);
@@ -46,7 +46,7 @@ public class GenericRecord {
         }
         catch (NumberFormatException nf) {
             System.out.println(nf);
-            throw new RecordException("Unexpected ID format.");
+            throw new RecordException("Unexpected id format.");
         }
 
     }
