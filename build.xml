@@ -22,6 +22,7 @@
         destdir="${classes.dir}"
         includeantruntime="false"
         classpathref="dest.classpath">
+      <compilerarg value="-Xlint"/>
     </javac>
   </target>
 
