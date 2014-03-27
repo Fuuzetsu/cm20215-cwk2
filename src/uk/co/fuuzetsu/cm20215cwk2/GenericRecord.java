@@ -38,13 +38,9 @@ public class GenericRecord {
 
             phoneNumber = PhoneNumber.phoneNumber(line[3]);
 
-            try {
-                String[] ap = line[4].split(" : ");
-                address = new Address(ap[0], ap[1], ap[2]);
-            }
-            catch (ArrayIndexOutOfBoundsException e) {
-                throw e;
-            }
+
+            String[] ap = line[4].split(" : ");
+            address = new Address(ap[0], ap[1], ap[2]);
 
             if (phoneNumber.isLeft()) {
                 return Either.left(phoneNumber.left().value());
