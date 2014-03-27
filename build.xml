@@ -5,11 +5,10 @@
   <property name="bin.dir" value="bin"/>
   <property name="classes.dir" value="${bin.dir}/classes"/>
   <property name="jar.dir" value="${bin.dir}/jar"/>
+  <property name="main.class" value="uk.co.fuuzetsu.cm20215cwk2.UserInterface"/>
 
   <path id="dest.classpath">
-    <fileset dir="${lib.dir}">
-      <include name="**/*.jar" />
-    </fileset>
+    <fileset dir="${lib.dir}" includes="**/*.jar"/>
   </path>
 
   <target name="clean">
@@ -18,12 +17,34 @@
 
   <target name="build">
     <mkdir dir="${classes.dir}"/>
-    <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false">
-      <classpath>
-        <pathelement path="${lib.dir}/*.jar"/>
-        <path refid="dest.classpath"/>
-      </classpath>
+    <javac
+        srcdir="${src.dir}"
+        destdir="${classes.dir}"
+        includeantruntime="false"
+        classpathref="dest.classpath">
     </javac>
   </target>
+
+  <target name="jar" depends="build">
+    <mkdir dir="${jar.dir}"/>
+    <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+      <manifest>
+        <attribute name="Main-Class" value="${main.class}"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="run" depends="jar">
+    <java fork="true" classname="${main.class}">
+      <classpath>
+        <path refid="dest.classpath"/>
+        <path location="${jar.dir}/${ant.project.name}.jar"/>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="clean-build" depends="clean,jar"/>
+
+  <target name="main" depends="clean,run"/>
 
 </project>
