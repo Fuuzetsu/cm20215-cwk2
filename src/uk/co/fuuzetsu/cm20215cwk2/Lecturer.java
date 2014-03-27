@@ -40,8 +40,6 @@ public class Lecturer extends Employee {
 
                 return Either.right(getSalary().getMonthly().add(cp).add(pp));
             }
-
-
         };
 
         return Either.left(new IO<>(f));
