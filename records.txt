@@ -1,0 +1,51 @@
+% This is a records file; fields are delimited by a pipe with spaces around
+% Address fields are delimited by a colon with spaces around
+% Comments begin with a % in front and can not be in-lined
+% Field order matters; wages are worked out from the job title
+% Allowed jobs: Lecturer, Researcher, Administrator
+
+% 10 Administrators
+53190 | John Smith | Administrator | 0715886446 | Bath : 1 Uphill St : BA2 2HU
+24190 | Joe Boring | Administrator | 071588635 | Bath : 8 Uphill St : BA2 2HU
+544190 | Ahib Sahib | Administrator | 0715886246 | Bath :  45 Uphill St : BA2 2HU
+5316290 | Akari Akarin | Administrator | 07995886446 | Bath : 456 Dowhill St : BA2 2HU
+53190 | Wah Haw | Administrator |  | Bath : 4444 Uphill St : BA2 2HU
+537530 | Yin Yan | Administrator | 07151500446 | Bath : 44 Downhill St : BA3 2HU
+593137 | Futsu Fushigi | Administrator |  | Bath : 33 Midhill St : BA2 2HU
+5162390 | John Doe | Administrator | 0717786446 | Bath : 11 Midhill St : BA2 252
+31990 | Doug Daug | Administrator | 0715886446 | Bath : 64 Super St : BA7 2HU
+5357930 | Yuuki Mikan | Administrator | 09186446 | Bath : 4 Uphill St : BA2 2HU
+
+% 10 Researchers
+9023137 | Horo Wolf | Researcher | 097944446 | Bath : Uphill St : BA2 2HU
+115923137 | Haro Hero | Researcher | 077553446 | Bath : Uphill St : BA2 2HU
+11522037 | Horo Aro | Researcher | 0715751716 | Bath : Uphill St : BA2 2HU
+115907 | Lackof Imagination | Researcher | 071717546 | Bath : Uphill St : BA2 2HU
+1153137 | Hard Names | Researcher | 0715448446 | Bath : Uphill St : BA2 2HU
+1171537 | Maria Marianna | Researcher | 0716664446 | Bath : Uphill St : BA2 2HU
+44153137 | Henry McDonald | Researcher | 0715444446 | Bath : Uphill St : BA2 2HU
+6253137 | Oha Rakki | Researcher | 0715444446 | Bath : Uphill St : BA2 2HU
+112227 | Memori Rikku | Researcher | 071564206 | Bath : Uphill St : BA2 2HU
+11501337 | Sherley Black | Researcher | 071190446 | Bath : Uphill St : BA2 2HU
+
+% 20 Lecturers. Yearly performance pay is the last field.
+73590 | Alas Smith | Lecturer | 0757556446 | Bath : 5 Sevenhill St : BA1 3HU | 4700
+24590 | Hello Boring | Lecturer | 075755637 | Bath : 5 Sevenhill St : BA1 3HU | 2173
+744590 | Why Sahib | Lecturer | 0757556246 | Bath : 47 Sevenhill St : BA1 3HU | 5100
+7356290 | Akarin Away | Lecturer | 07997556446 | Bath : 476 Dowhill St : BA1 3HU | 1500
+73590 | Hello World | Lecturer |  | Bath : 4423 Sevenhill St : BA1 2HU | 7000
+737730 | Chap Chap | Lecturer | 07575700446 | Bath : 441 Downhill St : BA3 3HU | 4600
+793537 | Isabelle Gold | Lecturer |  | Bath : 33 Overhill St : BA1 2HU | 4730
+7563390 | George Smith | Lecturer | 0757756446 | Bath : 55 Midhill St : BA1 273 | 4000
+35990 | Neko Cat | Lecturer | 0757556446 | Bath : 65 Super St : BA7 2HU | 7300
+7377930 | Table Kun | Lecturer | 09556446 | Bath : 4 Eighthill St : BA1 3HU | 4270
+73590 | Lucy Long | Lecturer | 0757556446 | Bath : 5 Sevenhill St : BA1 2HU | 8000
+345590 | Shy McShy | Lecturer | 075755637 | Bath : 5 Eighthill St : BA1 2HU | 8200
+7044590 | John Kebab | Lecturer | 0757556346 | Bath : 47 Sevenhill St : BA1 2HU | 5700
+87356390 | Nazo Tama | Lecturer | 07997556446 | Bath : 476 Dowhill St : BA1 2HU | 9000
+773590 | Atlantis Ruler | Lecturer |  | Bath : 4444 Eighthill St : BA1 3HU | 7300
+7397730 | Tedious Typing | Lecturer | 07575700446 | Bath : 44 Downhill St : BA3 2HU | 1500
+7936537 | Ali Ocean | Lecturer |  | Bath : 33 Midhill St : BA1 3HU | 4500
+75362390 | Sea Saw | Lecturer | 0757756446 | Bath : 55 Midhill St : BA1 372 | 5670
+325990 | Kaeritai Na | Lecturer | 0757556446 | Bath : 64 Super St : BA7 3HU | 4560
+1377930 | Umai Keiki | Lecturer | 09556446 | Bath : 4 Sevenhill St : BA1 2HU | 9870
