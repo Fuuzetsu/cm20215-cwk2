@@ -9,7 +9,7 @@ public class Administrator extends Employee {
     public Administrator(final String jobTitle, final String name,
                          final Integer id, final Salary salary,
                          final Address address, final PhoneNumber phoneNumber) {
-        super(jobTitle, name, id, salary, address, phoneNumber);
+        super("Administrator", name, id, new Salary(15000d), address, phoneNumber);
     }
 
     @Override

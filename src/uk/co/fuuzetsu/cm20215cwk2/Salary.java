@@ -9,6 +9,10 @@ public class Salary {
         yearlySalary = yearly;
     }
 
+    public Salary(Double d) {
+        yearlySalary = new Money(d);
+    }
+
     public static F<Money, Salary> salary_() {
         return new F<Money, Salary>() {
             @Override
