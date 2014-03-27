@@ -8,23 +8,17 @@ public class RecordParser {
     public static Either<String, ? extends Employee> parse(String recordLine) {
         String[] lineContent = recordLine.split(" \\| ");
 
-        GenericRecord gr;
-        try {
-            gr = new GenericRecord(lineContent);
-        }
-        catch (RecordException e) {
-            return Either.left(e.getMessage());
-        }
-
-        /* if-else because non-integer switch is clearly too advanced */
-        if (gr.getJobTitle().equals("Researcher")) {
-            return Either.right(parseResearcher(gr));
-        } else if (gr.getJobTitle().equals("Administrator")) {
-            return Either.right(parseAdministrator(gr));
-        } else if (gr.getJobTitle().equals("Lecturer")) {
-            return Either.right(parseLecturer(gr, lineContent));
+        Either<String, GenericRecord> gre = GenericRecord.genericRecord(lineContent);
+        if (gre.isLeft()) {
+            return Either.left(gre.left().value());
         } else {
-            return Either.left("Can't parse job title near: " + recordLine);
+            GenericRecord gr = gre.right().value();
+            switch (gr.getJobTitle()) {
+            case "Researcher": return Either.right(parseResearcher(gr));
+            case "Administrator": return Either.right(parseAdministrator(gr));
+            case "Lecturer": return Either.right(parseLecturer(gr, lineContent));
+            default: return Either.left("Can't parse job title near: " + recordLine);
+            }
         }
     }
 
