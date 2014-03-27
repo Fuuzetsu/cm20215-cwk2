@@ -74,6 +74,21 @@ public class Util {
         return getPositiveDouble();
     }
 
+    public static <A> F<A, IO<Unit>> print_() {
+        return new F<A, IO<Unit>>() {
+            @Override
+            public IO<Unit> f(A a) {
+                if (a == null) {
+                    System.out.println("null");
+                } else {
+                    System.out.println(a.toString());
+                }
+
+                return IO.ret();
+            }
+        };
+    }
+
     public static Either<String, Double> getPositiveDouble() {
         BufferedReader r =
             new BufferedReader(new InputStreamReader(System.in));

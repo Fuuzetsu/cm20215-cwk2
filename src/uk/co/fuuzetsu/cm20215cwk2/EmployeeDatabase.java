@@ -2,6 +2,7 @@ package uk.co.fuuzetsu.cm20215cwk2;
 
 import fj.P;
 import fj.P2;
+import fj.data.Either;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -13,14 +14,14 @@ public class EmployeeDatabase {
         employees = new ArrayList<P2<Integer, Employee>>();
     }
 
-    public Employee getEmployee(Integer recordNumber) throws InvalidRecordID {
-        for (int i = 0; i < employees.size(); i++)
-            if (employees.get(i)._1() == recordNumber)
-                return employees.get(i)._2();
+    public Either<String, Employee> getEmployee(Integer recordNumber) {
+        for (int i = 0; i < employees.size(); i++) {
+            if (employees.get(i)._1() == recordNumber) {
+                return Either.right(employees.get(i)._2());
+            }
+        }
 
-        String msg = String.format("Record %d doesn't exist", recordNumber);
-        throw (new InvalidRecordID(msg));
-
+        return Either.left(String.format("Record %d doesn't exist", recordNumber));
     }
 
     public void addEmployee(Employee e) {

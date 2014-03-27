@@ -12,4 +12,13 @@ public class IO<A> {
     public A run() {
         return runF.f(Unit.unit());
     }
+
+    public static IO<Unit> ret() {
+        return new IO<Unit>(new F<Unit, Unit>() {
+                @Override
+                public Unit f(Unit u) {
+                    return Unit.unit();
+                }
+        });
+    }
 }

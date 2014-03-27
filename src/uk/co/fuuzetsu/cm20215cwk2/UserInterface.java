@@ -1,7 +1,9 @@
 package uk.co.fuuzetsu.cm20215cwk2;
 
+import fj.F;
 import fj.P2;
 import fj.data.Either;
+import fj.Unit;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -108,21 +110,22 @@ public class UserInterface {
 
     public void interact() {
         while (true) {
-            try {
-                printMainMenu();
-                Integer choice = getIntFromConsole();
-                switch (choice) {
-                case 1 : System.out.println(database); break;
-                case 2 : System.out.println(getMonthlyWage()); break;
-                case 3 : recordAddRoutine(); break;
-                case 4 : recordDeleteRoutine(); break;
-                case 5 : System.exit(0); break;
-                default : System.out.println("Invalid choice."); continue;
-                }
+            printMainMenu();
+            Integer choice = getIntFromConsole();
+            switch (choice) {
+            case 1 : System.out.println(database); break;
+            case 2 :
+                /* Wow, isn't Java's type sytem great ;^) */
+                F<String, IO<Unit>> lp = Util.print_();
+                F<Money, IO<Unit>> rp = Util.print_();
+                getMonthlyWage().either(lp, rp);
+                break;
+            case 3 : recordAddRoutine(); break;
+            case 4 : recordDeleteRoutine(); break;
+            case 5 : System.exit(0); break;
+            default : System.out.println("Invalid choice."); continue;
             }
-            catch (InvalidRecordID inv) {
-                System.out.println(inv.getMessage());
-            }
+
         }
     }
 
@@ -214,33 +217,29 @@ public class UserInterface {
         }
     }
 
-    public Money getMonthlyWage() throws InvalidRecordID {
+    public Either<String, Money> getMonthlyWage() {
         System.out.println(database);
         System.out.println("Pick an employee by database record number.");
         Integer recordNumber = getIntFromConsole();
 
-        Employee emp;
-        try {
-            emp = database.getEmployee(recordNumber);
-        }
-        catch (InvalidRecordID e) {
-            throw e;
-        }
-
-        Money base = emp.getBaseMonthlySalary();
-        Either<IO<Either<String, Money>>, Money> wact = emp.calculateWage();
-
-        if (wact.isLeft()) {
-            Either<String, Money> r = wact.left().value().run();
-            if (r.isLeft()) {
-                System.out.println(r.left().value());
-                return null;
-            } else {
-                return r.right().value();
-            }
+        Either<String, Employee> empr = database.getEmployee(recordNumber);
+        if (empr.isLeft()) {
+            return Either.left(empr.left().value());
         } else {
-            return wact.right().value();
+            final Employee emp = empr.right().value();
+            Money base = emp.getBaseMonthlySalary();
+            Either<IO<Either<String, Money>>, Money> wact = emp.calculateWage();
+
+            if (wact.isLeft()) {
+                Either<String, Money> r = wact.left().value().run();
+                if (r.isLeft()) {
+                    return Either.left(r.left().value());
+                } else {
+                    return Either.right(r.right().value());
+                }
+            } else {
+                return Either.right(wact.right().value());
+            }
         }
     }
-
 }
