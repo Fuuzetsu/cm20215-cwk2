@@ -29,23 +29,23 @@
 11501337 | Sherley Black | Researcher | 071190446 | Bath : Uphill St : BA2 2HU
 
 % 20 Lecturers. Yearly performance pay is the last field.
-73590 | Alas Smith | Lecturer | 0757556446 | Bath : 5 Sevenhill St : BA1 3HU | 4700
-24590 | Hello Boring | Lecturer | 075755637 | Bath : 5 Sevenhill St : BA1 3HU | 2173
-744590 | Why Sahib | Lecturer | 0757556246 | Bath : 47 Sevenhill St : BA1 3HU | 5100
-7356290 | Akarin Away | Lecturer | 07997556446 | Bath : 476 Dowhill St : BA1 3HU | 1500
-73590 | Hello World | Lecturer |  | Bath : 4423 Sevenhill St : BA1 2HU | 7000
-737730 | Chap Chap | Lecturer | 07575700446 | Bath : 441 Downhill St : BA3 3HU | 4600
-793537 | Isabelle Gold | Lecturer |  | Bath : 33 Overhill St : BA1 2HU | 4730
-7563390 | George Smith | Lecturer | 0757756446 | Bath : 55 Midhill St : BA1 273 | 4000
-35990 | Neko Cat | Lecturer | 0757556446 | Bath : 65 Super St : BA7 2HU | 7300
-7377930 | Table Kun | Lecturer | 09556446 | Bath : 4 Eighthill St : BA1 3HU | 4270
-73590 | Lucy Long | Lecturer | 0757556446 | Bath : 5 Sevenhill St : BA1 2HU | 8000
-345590 | Shy McShy | Lecturer | 075755637 | Bath : 5 Eighthill St : BA1 2HU | 8200
-7044590 | John Kebab | Lecturer | 0757556346 | Bath : 47 Sevenhill St : BA1 2HU | 5700
-87356390 | Nazo Tama | Lecturer | 07997556446 | Bath : 476 Dowhill St : BA1 2HU | 9000
-773590 | Atlantis Ruler | Lecturer |  | Bath : 4444 Eighthill St : BA1 3HU | 7300
-7397730 | Tedious Typing | Lecturer | 07575700446 | Bath : 44 Downhill St : BA3 2HU | 1500
-7936537 | Ali Ocean | Lecturer |  | Bath : 33 Midhill St : BA1 3HU | 4500
-75362390 | Sea Saw | Lecturer | 0757756446 | Bath : 55 Midhill St : BA1 372 | 5670
-325990 | Kaeritai Na | Lecturer | 0757556446 | Bath : 64 Super St : BA7 3HU | 4560
-1377930 | Umai Keiki | Lecturer | 09556446 | Bath : 4 Sevenhill St : BA1 2HU | 9870
+73590 | Alas Smith | Lecturer | 0757556446 | Bath : 5 Sevenhill St : BA1 3HU
+24590 | Hello Boring | Lecturer | 075755637 | Bath : 5 Sevenhill St : BA1 3HU
+744590 | Why Sahib | Lecturer | 0757556246 | Bath : 47 Sevenhill St : BA1 3HU
+7356290 | Akarin Away | Lecturer | 07997556446 | Bath : 476 Dowhill St : BA1 3HU
+73590 | Hello World | Lecturer |  | Bath : 4423 Sevenhill St : BA1 2HU
+737730 | Chap Chap | Lecturer | 07575700446 | Bath : 441 Downhill St : BA3 3HU
+793537 | Isabelle Gold | Lecturer |  | Bath : 33 Overhill St : BA1 2HU
+7563390 | George Smith | Lecturer | 0757756446 | Bath : 55 Midhill St : BA1 273
+35990 | Neko Cat | Lecturer | 0757556446 | Bath : 65 Super St : BA7 2HU
+7377930 | Table Kun | Lecturer | 09556446 | Bath : 4 Eighthill St : BA1 3HU
+73590 | Lucy Long | Lecturer | 0757556446 | Bath : 5 Sevenhill St : BA1 2HU
+345590 | Shy McShy | Lecturer | 075755637 | Bath : 5 Eighthill St : BA1 2HU
+7044590 | John Kebab | Lecturer | 0757556346 | Bath : 47 Sevenhill St : BA1 2HU
+87356390 | Nazo Tama | Lecturer | 07997556446 | Bath : 476 Dowhill St : BA1 2HU
+773590 | Atlantis Ruler | Lecturer |  | Bath : 4444 Eighthill St : BA1 3HU
+7397730 | Tedious Typing | Lecturer | 07575700446 | Bath : 44 Downhill St : BA3 2HU
+7936537 | Ali Ocean | Lecturer |  | Bath : 33 Midhill St : BA1 3HU
+75362390 | Sea Saw | Lecturer | 0757756446 | Bath : 55 Midhill St : BA1 372
+325990 | Kaeritai Na | Lecturer | 0757556446 | Bath : 64 Super St : BA7 3HU
+1377930 | Umai Keiki | Lecturer | 09556446 | Bath : 4 Sevenhill St : BA1 2HU

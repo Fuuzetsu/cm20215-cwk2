@@ -49,14 +49,14 @@ public class UserInterface {
                 if (line.length() == 0 || line.charAt(0) == '%')
                     continue;
 
-                P2<? extends Employee, Boolean> employeePair = RecordParser.parse(line);
+                Either<String, ? extends Employee> er = RecordParser.parse(line);
 
-                if (!employeePair._2()) {
-                    return Either.left(String.format("Parse failure at %s:%d:%d",
-                                                     "huh what even goes here", lineCount, line));
+                if (er.isLeft()) {
+                    /* Just print the error and skip the record */
+                    System.out.println(er.left().value());
+                } else {
+                    employees.add(er.right().value());
                 }
-
-                employees.add(employeePair._1());
             }
         }
         catch (IOException e) {
@@ -153,13 +153,14 @@ public class UserInterface {
                 if (record.equals("0"))
                     break;
 
-                P2<? extends Employee, Boolean> parseResult = RecordParser.parse(record);
-                if (!parseResult._2())
+                Either<String, ? extends Employee> parseResult = RecordParser.parse(record);
+                if (parseResult.isLeft()) {
                     System.out.println("Failed to parse input. Check your format.");
+                    System.out.println(parseResult.left().value());
+                }
                 else {
-                    database.addEmployee(parseResult._1());
+                    database.addEmployee(parseResult.right().value());
                     break;
-
                 }
             }
             catch (IOException e) {
