@@ -1,7 +1,5 @@
 package uk.co.fuuzetsu.cm20215cwk2;
 
-import fj.F;
-import fj.P2;
 import fj.data.Either;
 import fj.Unit;
 import java.io.BufferedReader;
@@ -27,7 +25,6 @@ public class UserInterface {
         List<Employee> employees = new ArrayList<Employee>();
 
         String line;
-        Integer lineCount = 0;
 
         BufferedReader breader = null;
         try {
@@ -37,7 +34,7 @@ public class UserInterface {
 
         }
         catch (FileNotFoundException e) {
-            System.out.println(String.format("Record file %s  doesn't exist.",
+            System.out.println(String.format("Record file %s doesn't exist.",
                                              recordFile.getName()));
             System.exit(3);
         }
@@ -45,7 +42,6 @@ public class UserInterface {
         /* Parse file line by line */
         try {
             while ((line = breader.readLine()) != null) {
-                lineCount++;
 
                 /* Ignore empty and comment lines. */
                 if (line.length() == 0 || line.charAt(0) == '%')
@@ -225,7 +221,7 @@ public class UserInterface {
             return Either.left(empr.left().value());
         } else {
             final Employee emp = empr.right().value();
-            Money base = emp.getBaseMonthlySalary();
+
             Either<IO<Either<String, Money>>, Money> wact = emp.calculateWage();
 
             if (wact.isLeft()) {

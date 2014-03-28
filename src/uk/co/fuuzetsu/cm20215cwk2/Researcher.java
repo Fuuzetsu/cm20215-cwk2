@@ -1,7 +1,5 @@
 package uk.co.fuuzetsu.cm20215cwk2;
 
-import fj.F;
-import fj.Unit;
 import fj.data.Either;
 
 public class Researcher extends Employee {

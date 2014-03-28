@@ -16,7 +16,7 @@ public class RecordParser {
             switch (gr.getJobTitle()) {
             case "Researcher": return Either.right(parseResearcher(gr));
             case "Administrator": return Either.right(parseAdministrator(gr));
-            case "Lecturer": return Either.right(parseLecturer(gr, lineContent));
+            case "Lecturer": return Either.right(parseLecturer(gr));
             default: return Either.left("Can't parse job title near: " + recordLine);
             }
         }
@@ -34,7 +34,7 @@ public class RecordParser {
     }
 
     private static Employee
-        parseLecturer(GenericRecord gr, String[] lineContent) {
+        parseLecturer(GenericRecord gr) {
         return new Lecturer(gr.getID(), gr.getName(),
                             gr.getAddress(), gr.getPhoneNumber());
     }
