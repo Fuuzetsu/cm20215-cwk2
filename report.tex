@@ -145,46 +145,57 @@ backed by large companies and hordes of volunteers rather than trying
 to implement it myself (and badly).
 
 \section*{Impedance mismatch}
-Impedance mismatch is an issue where one tries to model a relational
-concept (a database) using object-oriented model. This is the case in
-my program, where I attempt to model a database and implement it in
-Java. First of all, I should mention that the database we were asked
-to implement only contains a few types. Many of those times are
-primitives in most real-life database scenarios. Thanks to the fact
-that we are using primitives, we don't have any issues with having to
-represent complex objects as tables. In fact, we only have one table
-due to the sheer simplicity of our database. Still, let us briefly
-consider the situation where we have modelled the desired database as
-complex objects and now need to actually represent them in relational
-way. As we know, an object in OOP ideology is simply encapsulated,
-private data that can only be accessed through a public interface.
-That interface is what ensures that only the data we need is exposed
-and only in a way that we want it to be. Any modifications have to go
-through the interface. In a relational model, we have to expose all
-that private data, essentially rendering the ideology behind
-object-orientation useless. All the data becomes public, free to be
-changed and queried in any way, without the interface in the way to
-make semantic safety checks. Similarly, the idea of inheritance gets
-skewed, as everything has to be transformed into virtual tables that
-can be queried. In OO models, it's common to have objects be built
-from other objects, while in relational systems, we have what
-essentially is a large amount of top level data, only linked by
-relations (often tuples specifying what data relates to what).
+Impedence mismatch is a problem that arises when one is attempting to
+shift their concept/view/application from one paradigm into another
+which might not have a good mapping between each other. In terms of
+databases, this is usually an attempt to move between a relational
+model (which is what databases most commonly tend to use) into an
+object oriented model (which is what languages like Java attempt to
+use to model things).
 
-Another thing to consider is the type system. Even though I mentioned
-that we only have primitive types in our system (or things that
-directly wrap primitive types therefore can be translated in a
-straight forward way), the relational system also restrains the length
-of the data, while in most OO languages we are only limited by the
-memory. We can enforce the length of data in our programs but it
-requires a lot of trickery and makes modelling a lot more difficult.
-There is no simple way to impose the relational type system onto an
-object-oriented model.
+In our scenario, impedance mismatch does not have much chance to arise
+but it is solely due to the very primitive record system that we're
+using: this makes it very easy to model as we effectively have a
+single table with only relevant information and we are not asked to
+allow the user to make custom queries over it. Our object oriented
+model fits fine here.
 
-I mentioned the biggest issues when it comes to modelling a relational
-system using object-oriented ideas. There are many minor ones that
-make the process difficult. Personally, I believe that we shouldn't
-try to enforce the object-oriented model on everything and that we
-should simply use the right tools. Unfortunately, this often isn't an
-option in businesses.
+Let's consider a bigger example. Real databases usually have from tens
+to thousands of tables of what is effectively flat data but
+partitioned and ordered into tables by specifying relations on it.
+We're given complete access to this data and can create completely new
+tables at will. There is no data hiding going on. Now trying to model
+this in an object oriented paradigm, we encounter a problem: we're
+taught the encapsulation is the way to go but we are unable to sanely
+define objects that model our tables and data. After all, we're not
+hiding anything in the database so there's nothing to encapsulate
+over, no validation needed to be done. One way to think about it is
+that in relation world we can create smaller sets of data by combining
+what we have into differently arranged chuncks, but always having the
+full data available to us if we wanted to change our relation. In the
+object oriented world, we do the opposite: we start with some amount
+of data but we do not expose it all but instead we hide it. We can't
+create new objects based on the hidden data, it's not available to us.
+We can not easily combine such objects, at least not in a natural way
+to OOP.
+
+Similarly, many of the tauted OOP concepts such as inheritance or
+polymorphism simply do not hava the equivalent in relational systems
+which means that we can't easily translate between such systems.
+
+There quite a few more issues that could be listed (accessibility
+comes to mind as a big one) but at this point it should be fairly
+clear where this is heading: in order to try and model the relational
+system, we have to resort to abusing OOP features or not being able to
+use them at all. After you strip accessibility, polymorphism and
+inherence, you can't really call it OOP anymore.
+
+I think the lesson to take away from this is that you shouldn't stick
+OOP where it doesn't belong: if two systems don't have a clear mapping
+between each other then that's just it, the modelling is not easy and
+you're going to be shooting yourself in the foot trying to do it. My
+personal opinion is that it has the word ``paradigm'' in the name for
+a reason, if it doesn't work then use something else. Shame that so
+many people have come to treat it as the-only-way-to-do-it.
+
 \end{document}
