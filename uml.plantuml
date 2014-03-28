@@ -5,18 +5,47 @@ Employee o-- IO
 Employee o-- Salary
 Employee o-- Address
 Employee o-- PhoneNumber
+Employee o-- Money
+
+GenericRecord o-- PhoneNumber
+GenericRecord o-- Address
+GenericRecord o-- fj.data.Either
+
+PhoneNumber o-- fj.data.Either
+
+Money o-- fj.F
+
+RecordParser o-- fj.data.Either
+RecordParser o-- GenericRecord
+RecordParser o-- Employee
+
+EmployeeDatabase o-- fj.P
+EmployeeDatabase o-- fj.P2
+
+Administrator <|-- Employee
+Administrator o-- Util
+
+Researcher <|-- Employee
+
+Lecturer <|-- Employee
+Lecturer o-- Util
+
 
 IO o-- fj.F
 IO o-- fj.Unit
 
 Salary o-- Money
+Salary o-- fj.F
 
-Researcher <|-- Employee
-Administrator <|-- Employee
-Administrator o-- IO
-Lecturer <|-- Employee
-Lecturer o-- IO
+UserInterface o-- EmployeeDatabase
+UserInterface o-- Employee
+UserInterface o-- fj.data.Either
+UserInterface o-- Util
 
+Util o-- fj.F
+Util o-- fj.Unit
+Util o-- fj.data.Either
+Util o-- IO
 
 namespace fj {
 
@@ -25,13 +54,18 @@ namespace fj {
 
           class Unit {
           }
+
+          class P {
+          }
+
+          class P2<A, B> {
+          }
 }
 
 namespace fj.data {
 
           class Either<A, B> {
           }
-
 }
 
 abstract class Employee {
@@ -49,6 +83,27 @@ abstract class Employee {
       +PhoneNumber getPhoneNumber()
 }
 
+class GenericRecord {
+    -Integer id;
+    -String name, jobTitle;
+    -PhoneNumber phoneNumber;
+    -Address address;
+    -GenericRecord(Integer, String, String, PhoneNumber, Address)
+    +Either<String, GenericRecord> genericRecord(String[] line)
+    +Integer getID()
+    +String getName()
+    +String getJobTitle()
+    +PhoneNumber getPhoneNumber()
+    +Address getAddress()
+}
+
+class EmployeeDatabase {
+      -List<P2<Integer, Employee>> employees
+      +void addEmployee(Employee)
+      +Boolean deleteRecord(Integer)
+      +Boolean doesRecordExist(Integer)
+}
+
 class Researcher {
 
 }
@@ -61,15 +116,17 @@ class Lecturer {
 
 class IO<A> {
       -F<Unit, A> runF
-      +IO(F<Unit, A>)
+      +IO<A>(F<Unit, A>)
       +A run()
 }
 
 class Salary {
       -Monay yearlySalary
       +Salary(Money)
+      +Salary(Double)
       +Money getYearly()
-      +Money getMonthly
+      +Money getMonthly()
+      {static} F<Money, Salary> salary_()
 }
 
 class Money {
@@ -77,6 +134,8 @@ class Money {
       +Double getAmount()
       +Money(Double)
       +Money add(Money)
+      +Money add(Double)
+      {static} F<Double, Money> money_()
 }
 
 class Address {
@@ -91,10 +150,42 @@ class Address {
 
 class PhoneNumber {
       -String number
-      +PhoneNumber(String)
+      -PhoneNumber(String)
       +Boolean isValidPhoneNumber(String)
+      {static} Either<String, PhoneNumber> phoneNumber(String)
 }
 
+class RecordParser {
+      {static} Either<String, ? extends Employee> parse(String)
+      {static} Employee parseResearcher(GenericRecord)
+      {static} Employee parseLecturer(GenericRecord)
+      {static} Employee parseAdministrator(GenericRecord)
+}
+
+class UserInterface {
+      -EmployeeDatabase database
+      {static} void printUsage()
+      {static} Either<String, List<Employee>> parseRecordFile(File)
+      -void recordDeleteRoutine()
+      -void recordAddRoutine()
+      +UserInterface(EmployeeDatabase)
+      +void interact()
+      +void printMainMenu()
+      +Either<String, Money> getMonthlyWage()
+}
+
+class Util {
+      -Util()
+      {static} IO<Either<String, Double>> getPositiveDouble_()
+      {static} IO<Either<String, Integer>> getPositiveInt_()
+      {static} IO<Either<String, Double>> getPositiveDouble_()
+      {static} IO<Either<String, Integer>> getPositiveIntQ_(String)
+      {static} IO<Either<String, Double>> getPositiveDoubleQ_(String)
+      {static} F<Double, Integer> intValue_()
+      {static} Either<String, Double> getPositiveDouble(String)
+      {static} Either<String, Double> getPositiveDouble()
+      {static} F<A, IO<Unit>> print_()
+}
 
 hide empty members
 hide empty methods
