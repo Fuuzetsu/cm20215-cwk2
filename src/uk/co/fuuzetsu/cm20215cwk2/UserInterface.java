@@ -107,7 +107,7 @@ public class UserInterface {
     public void interact() {
         while (true) {
             printMainMenu();
-            Either<String, Integer> ei = Util.getPositiveInt_().f(Unit.unit());
+            Either<String, Integer> ei = Util.getPositiveInt_().run();
             if (ei.isLeft()) {
                 System.out.println(ei.left().value());
             } else {
@@ -130,7 +130,7 @@ public class UserInterface {
 
     private void recordDeleteRoutine() {
         String message = "Which record to delete? 0 to cancel.";
-        Either<String, Integer> record = Util.getPositiveIntQ_().f(message);
+        Either<String, Integer> record = Util.getPositiveIntQ_(message).run();
         if (record.isLeft()) {
             System.out.println(record.left().value());
         } else {
@@ -190,7 +190,7 @@ public class UserInterface {
     public Either<String, Money> getMonthlyWage() {
         System.out.println(database);
         System.out.println("Pick an employee by database record number.");
-        Either<String, Integer> ei = Util.getPositiveInt_().f(Unit.unit());
+        Either<String, Integer> ei = Util.getPositiveInt_().run();
         if (ei.isLeft()) {
             return Either.left(ei.left().value());
         } else {

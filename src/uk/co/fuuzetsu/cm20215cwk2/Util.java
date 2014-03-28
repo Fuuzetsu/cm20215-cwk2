@@ -7,56 +7,53 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 
-public final class Util {
+public class Util {
 
     private Util() {}
 
-    public static <A, B, C> Either<A, C> ebind(Either<A,B> e, F<B, Either<A, C>> f) {
-        if (e.isLeft()) {
-            return Either.left(e.left().value());
-        } else {
-            return f.f(e.right().value());
-        }
+    public static IO<Either<String, Double>> getPositiveDouble_() {
+        return new IO<Either<String, Double>>
+            (new F<Unit, Either<String, Double>>() {
+                @Override
+                public Either<String, Double> f(Unit u) {
+                    return getPositiveDouble();
+                }
+
+            });
     }
 
-    public static F<Unit, Either<String, Double>> getPositiveDouble_() {
-        return new F<Unit, Either<String, Double>>() {
-            @Override
-            public Either<String, Double> f(Unit u) {
-                return getPositiveDouble();
-            }
+    public static IO<Either<String, Integer>> getPositiveInt_() {
+        return new IO<Either<String, Integer>>
+            (new F<Unit, Either<String, Integer>>() {
+                @Override
+                public Either<String, Integer> f(Unit u) {
+                    return getPositiveDouble().right().map(Util.intValue_());
+                }
 
-        };
+            });
     }
 
-    public static F<Unit, Either<String, Integer>> getPositiveInt_() {
-        return new F<Unit, Either<String, Integer>>() {
-            @Override
-            public Either<String, Integer> f(Unit u) {
-                return getPositiveDouble().right().map(Util.intValue_());
-            }
+    public static IO<Either<String, Double>> getPositiveDoubleQ_(final String s) {
+        return new IO<Either<String, Double>>
+            (new F<Unit, Either<String, Double>>() {
+                @Override
+                    public Either<String, Double> f(Unit u) {
+                    return getPositiveDouble(s);
+                }
 
-        };
+            });
     }
 
-    public static F<String, Either<String, Double>> getPositiveDoubleQ_() {
-        return new F<String, Either<String, Double>>() {
-            @Override
-            public Either<String, Double> f(String s) {
-                return getPositiveDouble(s);
-            }
 
-        };
-    }
+    public static IO<Either<String, Integer>> getPositiveIntQ_(final String s) {
+        return new IO<Either<String, Integer>>
+            (new F<Unit, Either<String, Integer>>() {
+                @Override
+                public Either<String, Integer> f(Unit u) {
+                    return getPositiveDouble(s).right().map(Util.intValue_());
+                }
 
-    public static F<String, Either<String, Integer>> getPositiveIntQ_() {
-        return new F<String, Either<String, Integer>>() {
-            @Override
-            public Either<String, Integer> f(String s) {
-                return getPositiveDouble(s).right().map(Util.intValue_());
-            }
-
-        };
+            });
     }
 
     public static F<Double, Integer> intValue_() {
