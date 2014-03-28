@@ -112,64 +112,37 @@ it and report it to the user.
 
 
 \section*{Distributed Environment scenario}
-If I were to extend my program to function in a distributed
-environment, there are a couple of things I would have to think about.
-First of all, I am going to assume that we are now letting the user to
-actually add the data to the database. As the specification doesn't
-require it, all it would take is to write the networking code and
-serve the data to the users in their own threads. There are no issues
-with data integrity as the database doesn't change. I am therefore
-assuming that adding and removing records is allowed and is an instant
-and permanent change.
+If we are attempting to work in a distributed environment but with our
+initial scenario, there is no problem doing so: all we need is some
+networking code and we're done as all the data is read-only which
+eliminates data integrity. For the purpose of this part of the report,
+I'll assume that reading and deletion to and from disk is now desired.
 
 Now that the users are actually able to make changes to the database,
 an issue of data integrity comes up. There might be many users wanting
 to edit the same data.
 
-Personally, I would use a client-server model, due to ease of use, and
-ensuring that there is only one central version of the database that
-the server needs to consider. This allows the server to act upon the
-user requests while keeping its own local copy up to date. Using this
-model, it becomes fairly easy to manage the database. An example
-implementation would use a request queue. To provide safety, the
-clients would also send what the original record looked like, on top
-of what changes they want to make to it. The server will then be able
-to compare this record with its current copy and decide whether the
-record has changed between the user has seen it and edited it. If it
-has changed, the server simply denies the change and notifies the
-client about the change and sends an updated record back so the user
-can take note of the change. All operations that do not require
-writing to the database can be easily processed and fulfilled at any
-time.
+For a task of this size, I think client-server model is the most
+appropriate: the server is the one with the only current version of
+the database and is able to moderate any access/modification requests
+from the users: if the user requests changes after someone else
+already has, the server is able to easily detect this and take
+appropriate action such as informing the user about updated database
+state.
 
-It should be noted that the above solution is not very efficient, and
-would fail in real life scenario. An example situation where it would
-fail is when a user wanted to update the values of every record.
-Sending the records one by one would be incredibly inefficient. We
-could implement functions that allow this to be done easily with a
-command and the update is done by the server automatically. Assuming
-the succeeds, all other client requests afterwards will fail for all
-the records. Ideally, they need to be informed by the server about
-this change and update their local copy accordingly. The mass change
-can also fail. What if someone change a single record between when the
-database is read by the client and the command to update is sent by
-the client? As we are not sending all records in this situation (as
-that would require sending the whole database), we have no way to tell
-if the change is what the client desired.
-
-This is just a tip of an ice-berg of data integrity. I can not be
-possibly expected to provide the solution for this issue. Personally,
-I'd recommend the client to any free (as in freedom) solutions
-currently available that strive to achieve just that. There is a great
-amount of research and heavy investment into this area by many
-companies and one solution does not fit all. If I know that the
-database is always going to be small, I would implement the system
-where the user also has to send a record to make a change. If I knew
-that the user base is going to be small (but the database large), I
-would implement the command system with database locking exclusive to
-the user. In case of the situation where the database is large and has
-many users (therefore many updates), I'd direct the customer to a
-company specializing in large-scale database solutions.
+Of course with such model efficiency is a concern: if we're denying
+changes for every user queued after someone else already modified the
+database, a lot of people are going to be fighting for access and
+trying to get in. Complex methods can be written which observe which
+parts of the database changed and what the user is requesting and act
+accordingly. Complexity is increased for queries modifying every
+record and we can get down to per-column granularity of control. How
+well this would scale is anyone's guess. In conclusion, if I were
+asked about providing a distributed environment for this scenario but
+scaled up thousands of times, I would almost certainly use of the the
+many existing libre (and free) solutions which have been heavily
+backed by large companies and hordes of volunteers rather than trying
+to implement it myself (and badly).
 
 \section*{Impedance mismatch}
 Impedance mismatch is an issue where one tries to model a relational
