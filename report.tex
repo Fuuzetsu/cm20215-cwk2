@@ -20,7 +20,7 @@ solution here: creating a generic employee class that we can
 manipulate and subclassing it to allow specific classes to provide
 different behaviour is a reasonable way to go.
 
-While the technical specifcation mentions that records don't have to
+While the technical specification mentions that records don't have to
 be stored to disk, I decided that it'll be worthwhile to have such a
 list of employees for testing purposes. I quickly came up with
 primitive, flat record storing mechanism. The only worthwhile thing to
@@ -100,11 +100,11 @@ and I check user input at prompt.
 
 The only thing that had to be accounted for that come up during
 testing was negative inputs for number of hours or bonus pay. The
-specification does not say that the inputs alwayas have to be negative
+specification does not say that the inputs always have to be negative
 but due to lack of better direction, I simply require that the
 appropriate numbers are 0 or more, be it hours or money. The parser
-has been changed accordingly to accomodate for the possibility of
-seeing negative wagess (it in fact uses the same methods for
+has been changed accordingly to accommodate for the possibility of
+seeing negative wages (it in fact uses the same methods for
 validation as the user interface prompts do).
 
 Any invalid input will be reported by the parser and the UI will catch
@@ -145,7 +145,7 @@ backed by large companies and hordes of volunteers rather than trying
 to implement it myself (and badly).
 
 \section*{Impedance mismatch}
-Impedence mismatch is a problem that arises when one is attempting to
+Impedance mismatch is a problem that arises when one is attempting to
 shift their concept/view/application from one paradigm into another
 which might not have a good mapping between each other. In terms of
 databases, this is usually an attempt to move between a relational
@@ -171,7 +171,7 @@ define objects that model our tables and data. After all, we're not
 hiding anything in the database so there's nothing to encapsulate
 over, no validation needed to be done. One way to think about it is
 that in relation world we can create smaller sets of data by combining
-what we have into differently arranged chuncks, but always having the
+what we have into differently arranged chunks, but always having the
 full data available to us if we wanted to change our relation. In the
 object oriented world, we do the opposite: we start with some amount
 of data but we do not expose it all but instead we hide it. We can't
@@ -179,8 +179,8 @@ create new objects based on the hidden data, it's not available to us.
 We can not easily combine such objects, at least not in a natural way
 to OOP.
 
-Similarly, many of the tauted OOP concepts such as inheritance or
-polymorphism simply do not hava the equivalent in relational systems
+Similarly, many of the touted OOP concepts such as inheritance or
+polymorphism simply do not have the equivalent in relational systems
 which means that we can't easily translate between such systems.
 
 There quite a few more issues that could be listed (accessibility
@@ -188,7 +188,7 @@ comes to mind as a big one) but at this point it should be fairly
 clear where this is heading: in order to try and model the relational
 system, we have to resort to abusing OOP features or not being able to
 use them at all. After you strip accessibility, polymorphism and
-inherence, you can't really call it OOP anymore.
+inheritaance, you can't really call it OOP anymore.
 
 I think the lesson to take away from this is that you shouldn't stick
 OOP where it doesn't belong: if two systems don't have a clear mapping
