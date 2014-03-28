@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserInterface {
-    private BufferedReader reader;
-    private EmployeeDatabase database;
+    private final BufferedReader reader;
+    private final EmployeeDatabase database;
 
     private static void printUsage() {
         System.out.println("usage: java UserInterface [recordFile]");
@@ -147,8 +147,9 @@ public class UserInterface {
                 if (record == null)
                     continue;
 
-                if (record.equals("0"))
+                if ("0".equals(record)) {
                     break;
+                }
 
                 Either<String, ? extends Employee> parseResult = RecordParser.parse(record);
                 if (parseResult.isLeft()) {

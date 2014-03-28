@@ -2,7 +2,9 @@ package uk.co.fuuzetsu.cm20215cwk2;
 
 import fj.data.Either;
 
-public class RecordParser {
+public final class RecordParser {
+
+    private RecordParser() {}
 
     /* Either a parse error or an employee */
     public static Either<String, ? extends Employee> parse(String recordLine) {

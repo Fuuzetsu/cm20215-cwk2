@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class EmployeeDatabase {
-    private List<P2<Integer, Employee> > employees;
+    private final List<P2<Integer, Employee>> employees;
     private Integer lastRecordID = 1;
 
     public EmployeeDatabase() {
@@ -30,7 +30,7 @@ public class EmployeeDatabase {
         lastRecordID += 1;
     }
 
-    public boolean deleteRecord(Integer recordNumber) {
+    public Boolean deleteRecord(Integer recordNumber) {
         int itemIndex = -1;
 
         for (int i = 0; i < employees.size(); i++) {
@@ -47,7 +47,7 @@ public class EmployeeDatabase {
         return true;
     }
 
-    public boolean doesRecordExist(Integer recordNumber) {
+    public Boolean doesRecordExist(Integer recordNumber) {
         for (P2<Integer, Employee> p : employees) {
             if (p._1() == recordNumber) {
                 return true;

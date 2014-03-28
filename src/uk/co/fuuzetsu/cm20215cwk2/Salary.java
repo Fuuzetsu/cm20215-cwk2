@@ -3,7 +3,7 @@ package uk.co.fuuzetsu.cm20215cwk2;
 import fj.F;
 
 public class Salary {
-    private Money yearlySalary;
+    private final Money yearlySalary;
 
     public Salary(Money yearly) {
         yearlySalary = yearly;

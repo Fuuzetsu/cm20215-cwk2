@@ -2,11 +2,11 @@ package uk.co.fuuzetsu.cm20215cwk2;
 
 import fj.data.Either;
 
-public class GenericRecord {
-    final private Integer id;
-    final private String name, jobTitle;
-    final private PhoneNumber phoneNumber;
-    final private Address address;
+public final class GenericRecord {
+    private final Integer id;
+    private final String name, jobTitle;
+    private final PhoneNumber phoneNumber;
+    private final Address address;
 
     public Integer getID() { return id; }
     public String getName() { return name; }

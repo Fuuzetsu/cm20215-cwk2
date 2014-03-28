@@ -2,8 +2,8 @@ package uk.co.fuuzetsu.cm20215cwk2;
 
 import fj.data.Either;
 
-public class PhoneNumber {
-    final private String number;
+public final class PhoneNumber {
+    private final String number;
 
     private PhoneNumber(final String number) {
         this.number = number;
@@ -11,11 +11,11 @@ public class PhoneNumber {
 
     public static Either<String, PhoneNumber>
         phoneNumber(final String number) {
-        if (!isValid(number)) {
+        if (isValid(number)) {
+            return Either.right(new PhoneNumber(number));
+        } else {
             return Either.left
                 (String.format("%s is not a valid phone number.", number));
-        } else {
-            return Either.right(new PhoneNumber(number));
         }
     }
 
