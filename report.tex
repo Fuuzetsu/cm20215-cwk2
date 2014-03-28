@@ -3,73 +3,70 @@
 \title{CM20215} \author{Mateusz Kowalczyk (mk440)} \maketitle
 \section*{Design}
 
-The first part of my design process focused on familiarizing myself
-with the requirements specified by the customers. Although the
-requirements are very vague, they ask for list manipulation. The main
-requirement that is specified is the ability to calculate a wage for
-the current month of any employees in the database. The specification
-also states that there is no need to implement a mechanism that allows
-the user to save the data to the disk. Last requirement is that the
-program be written in Java. Considering those requirements, I
-considered what other features need to be put in place in order to
-provide the functionality. This led me to inspect the type of data
-that will be stored. It turns out that certain employees need to
-request additional information when calculating the wage. This means
-that we can no longer calculate the wages of all the employees in a
-batch, but we need to provide the user with an interface that will
-allow them to pick whichever employee they want to calculate the wage
-for and then input additional values if prompted.
+The first part of the project was to familiarise myself with the
+requirements. Inspecting the scenario and the technical specification,
+there are only a few core tasks that are required:
 
-As the specification states that there doesn't need to be a feature
-that lets the user save the database, I initially decided to not allow
-the user to add new records. As we need some records to manipulate, I
-have decided to implement a file parsing functionality that will read
-records from disk. At this stage, I had to consider how to propagate
-the exceptions inside of the system, as we are now dealing with I/O
-and user input. For the most part, I have decided to use Java's
-built-in exception system to help the flow control, with some custom
-created exceptions. Only the record parser would return a pair of a
-possible employee and a boolean indicating a success or failure of a
-parsing method. The calling method then can throw a parsing exception
-as normal. This allows me to make a generic record parser that is able
-to report failure without interrupting the program flow. Having
-designed this, I realised that my record parser is generic enough that
-it can be re-used and we can let the user add new records very easily,
-using that record parser. The decision to allow the user to delete
-records followed naturally. The user interface will be fully separated
-from the list manipulation. In fact, it's designed in the way that
-allows one to have many `databases' and to connect the same user
-interface instance to any of those. Although possible, the
-functionality will not be exposed to the user, even though it could be
-added in trivially if the requirements change in the future.
+\begin{itemize}
+\item The program is to be written in Java
+\item The program is to work with a list of university employees
+\item Each class of an employee can have a different base wage
+\item Some classes of employees need extra information to calculate
+  the monthly wage.
+\end{itemize}
 
-At this stage, I only had one major design decision left, and that is
-the format that would be used for reading records. Looking at the data
-type that is expected to be listed, I realised that the use of
-non-alphanumeric characters would not collide with the data. My format
-was therefore to be a file with one record per line. Empty lines or
-lines starting with \% would be ignored. The record format would be
-data fields, separated by a pipe character surrounded by a single
-space. The parser would look for the job title field and then be able
-to infer the position of all the other fields on a line from that
-information. There would be basic checks in place, to make sure that
-no data that would normally be rejected by the type system could be
-loaded this way. If a parsing of a line failed, the parsing method
-would signal failure with a false value in a pair. This can than by
-caught by the calling method and handled in any way deemed
-appropriate, such as throwing a parsing exception at that point. The
-very same format will be used when letting the user to add new
-records. I'd like to mention that the format could be more robust,
-such as by using named fields. This is taken into consideration and
-may be put in during the development stage. The format chosen can
-change at any time before the final release, without changing the
-implementation of any class but the record parser, thanks to
-encapsulation provided by object-orientation. You can find a UML
-diagram saved as an image distributed with this file.
+Once these requirements were established, there is a fairly obvious
+solution here: creating a generic employee class that we can
+manipulate and subclassing it to allow specific classes to provide
+different behaviour is a reasonable way to go.
+
+While the technical specifcation mentions that records don't have to
+be stored to disk, I decided that it'll be worthwhile to have such a
+list of employees for testing purposes. I quickly came up with
+primitive, flat record storing mechanism. The only worthwhile thing to
+mention is that no specific employee class information is stored
+except for the class name: that is, the records themselves don't store
+anything like performance pay or number of extra hours worked. The
+simple parser implementation is able to recover from any badly
+specified records, skipping them if necessary. Please see the
+``records.txt'' file for the sample data. This file is loaded by
+default if no other file is provided.
+
+Initially my design involved quite a few custom exception types and I
+have even gone with that approach in the prototype stage of the
+project. In the end, I decided against this: even with checked
+exceptions, following the control is very difficult, with exceptions
+being able to propagate up many scopes and in the end all my
+exceptions were just fancy wrappers for Strings storing the
+warnings/messages. Further, code with checked exceptions does not
+compose together well at all.  To make the program easier to follow, I
+removed all custom exception types and simply used a sum type to carry
+and denote any possible failures. I'm using parts of the ``functional
+java'' library for this purpose.
+
+The generic employee class is a very simple idea: all employees share
+common traits (name, address) but different classes calculate wages
+differently. For example, we don't need to specify any extra
+information for researchers but we need two extra pieces of
+information for lecturers. To implement this, the employee class
+requires that an abstract method to calculate the wage is implemented.
+The type of this method is again a sum type which either returns the
+monthly wage or returns function which when ran asks the user for more
+information, does the calculation and returns the monthly wage. Each
+subclass of employee is now able to implement this method and ask for
+any information it could ever require.
+
+This makes adding new employee classes easy: simply subclass the main
+employee class and implement the wage calculation method, requesting
+any extra information if required. In this program one would also be
+required to implement a very simple record parsing method if we were
+to store this new class but it is simply a technicality.
 
 \section*{Implementation}
-The implementation was done according to the UML design. The final set
-of features that is implemented is
+The implementation was done according to the UML class diagram. I
+implement provide a ``uml.jpeg''  image of this diagram as well as a
+``uml.plantuml'' file which I used to generate it (before converting
+to .jpeg).
 \begin{itemize}
   \item{Printing out records on screen}
   \item{Calculating the wage of any of the records}
@@ -81,43 +78,37 @@ There is no option to save the database file. Different database files
 can be loaded however.
 
 \subsection*{Running the program}
-To compile the program, go into the directory with code and run javac
-*.java\\ To run the program, now type in java UserInterface\\
+I provide an ant project file as well as the library that the program
+depends on. Due to the absolutely inane rules that Java uses to
+package files into ``.jar''s, the recommended way to get the program
+to build and run is to run ``ant run'' from the top level directory of
+the project. You'll of course need ``ant'' installed. Unfortunately
+this method causes an ugly prefix to all program output.
 
-This will load the provided ``records.txt'' file. You can specify a
-different file by simply passing its name as an argument.
+The project itself uses Java 7 although it should be very easy to make
+it run on Java 6 too. If you do not wish to use ``ant'', know that the
+main class is UserInterface and that you'll need the ``functional
+java'' library which I provide in ``lib/''.
+
+The defaults will load the provided ``records.txt'' file. You can
+specify a different file by simply passing its name as an argument.
 
 \subsection*{Testing}
-Due to a small set of features, the testing was done manually. The
-things tested for were valid user input, invalid user input and no
-user input when expected (including feeding \^D character)
+Due to a small set of features, the testing was done manually. Any
+quirks to do with invalid user input that I could find were eliminated
+and I check user input at prompt.
 
-A couple of records were added and removed by hand. The program output
-(but not crashed) a formatting exception when feeding letters in place
-of numbers to the UI. This was a matter of simple oversight and was
-fixed easily and should now function.
+The only thing that had to be accounted for that come up during
+testing was negative inputs for number of hours or bonus pay. The
+specification does not say that the inputs alwayas have to be negative
+but due to lack of better direction, I simply require that the
+appropriate numbers are 0 or more, be it hours or money. The parser
+has been changed accordingly to accomodate for the possibility of
+seeing negative wagess (it in fact uses the same methods for
+validation as the user interface prompts do).
 
-A more serious issue was not checking for a null character in places
-where the user was prompted for input that will then be parsed. All of
-those occurred in places where it was easy to recover from, and proper
-error checking is now in place.
-
-Those issues were just programming oversights. An issue of a different
-kind arose fairly quickly. Administrators get overtime pay depending
-on the number of hours input by the user, and Lecturers get a part of
-their performance pay. The issue that arose was that when parsing,
-negative values were accepted. This is a valid behaviour as far as the
-programmer is concerned, but might be seen as an error by the user. I
-have decided to remove the issue with the number of hours by simply
-checking that the value is more than or equal to 0. This still left
-the issue of negative performance pay in the database file. This had
-to be fixed in the record parser. Parsing now fails if that value is
-less than 0. No other issues arose when testing the program. The main
-area where issues could occur in the record parsing. The small amount
-of data and the fact that it's just numerical or text data without any
-real structure to it, close to no validation is done and therefore
-can't be tested against. Any invalid input will be reported by the
-parser and the UI will catch it and report it to the user.
+Any invalid input will be reported by the parser and the UI will catch
+it and report it to the user.
 
 
 \section*{Distributed Environment scenario}
