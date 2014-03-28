@@ -107,17 +107,22 @@ public class UserInterface {
     public void interact() {
         while (true) {
             printMainMenu();
-            Integer choice = getIntFromConsole();
-            switch (choice) {
-            case 1 : System.out.println(database); break;
-            case 2 :
-                getMonthlyWage().<IO<Unit>>either(Util.<String>print_(),
-                                                  Util.<Money>print_());
-                break;
-            case 3 : recordAddRoutine(); break;
-            case 4 : recordDeleteRoutine(); break;
-            case 5 : System.exit(0); break;
-            default : System.out.println("Invalid choice."); continue;
+            Either<String, Integer> ei = Util.getPositiveInt_().f(Unit.unit());
+            if (ei.isLeft()) {
+                System.out.println(ei.left().value());
+            } else {
+                switch (ei.right().value()) {
+                case 1 : System.out.println(database); break;
+                case 2 :
+                    getMonthlyWage().<IO<Unit>>either(Util.<String>print_(),
+                                                      Util.<Money>print_());
+                    break;
+                case 3 : recordAddRoutine(); break;
+                case 4 : recordDeleteRoutine(); break;
+                case 5 : System.exit(0); break;
+                default : System.out.println("Invalid choice."); continue;
+                }
+
             }
 
         }
@@ -125,12 +130,17 @@ public class UserInterface {
 
     private void recordDeleteRoutine() {
         String message = "Which record to delete? 0 to cancel.";
-        Integer record = getIntFromConsole(message);
-        if (record != 0) {
-            boolean gotDeleted = database.deleteRecord(record);
-            if (!gotDeleted)
-                System.out.println("No such record.");
+        Either<String, Integer> record = Util.getPositiveIntQ_().f(message);
+        if (record.isLeft()) {
+            System.out.println(record.left().value());
+        } else {
+            if (record.right().value() != 0) {
+                boolean gotDeleted = database.deleteRecord(record.right().value());
+                if (!gotDeleted)
+                    System.out.println("No such record.");
+            }
         }
+
     }
 
     private void recordAddRoutine() {
@@ -177,63 +187,33 @@ public class UserInterface {
                            "5 - Quit.");
     }
 
-    private Integer getIntFromConsole() {
-        return getDoubleFromConsole().intValue();
-    }
-
-    private Integer getIntFromConsole(String prompt) {
-        System.out.println(prompt);
-        return getIntFromConsole();
-    }
-
-    private Double getDoubleFromConsole() {
-        while (true) {
-            try {
-                String s = reader.readLine();
-
-                if (s == null)
-                    continue;
-
-                Double d = Double.parseDouble(s);
-                if (d < 0) {
-                    System.out.println("Please enter a number >= 0.");
-                    continue;
-                }
-                return d;
-            }
-            catch (NumberFormatException e) {
-                System.out.println("Please enter a valid number.");
-                continue;
-            }
-            catch (IOException io) {
-                System.out.println("IO Exception has occured. Aborting...");
-                System.exit(1);
-            }
-        }
-    }
-
     public Either<String, Money> getMonthlyWage() {
         System.out.println(database);
         System.out.println("Pick an employee by database record number.");
-        Integer recordNumber = getIntFromConsole();
-
-        Either<String, Employee> empr = database.getEmployee(recordNumber);
-        if (empr.isLeft()) {
-            return Either.left(empr.left().value());
+        Either<String, Integer> ei = Util.getPositiveInt_().f(Unit.unit());
+        if (ei.isLeft()) {
+            return Either.left(ei.left().value());
         } else {
-            final Employee emp = empr.right().value();
+            Integer recordNumber = ei.right().value();
 
-            Either<IO<Either<String, Money>>, Money> wact = emp.calculateWage();
-
-            if (wact.isLeft()) {
-                Either<String, Money> r = wact.left().value().run();
-                if (r.isLeft()) {
-                    return Either.left(r.left().value());
-                } else {
-                    return Either.right(r.right().value());
-                }
+            Either<String, Employee> empr = database.getEmployee(recordNumber);
+            if (empr.isLeft()) {
+                return Either.left(empr.left().value());
             } else {
-                return Either.right(wact.right().value());
+                final Employee emp = empr.right().value();
+
+                Either<IO<Either<String, Money>>, Money> wact = emp.calculateWage();
+
+                if (wact.isLeft()) {
+                    Either<String, Money> r = wact.left().value().run();
+                    if (r.isLeft()) {
+                        return Either.left(r.left().value());
+                    } else {
+                        return Either.right(r.right().value());
+                    }
+                } else {
+                    return Either.right(wact.right().value());
+                }
             }
         }
     }
